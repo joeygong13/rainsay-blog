@@ -1,0 +1,41 @@
+baseURL = 'https://www.rainsay.top'
+languageCode = 'zh-cn'
+title = "Rainsay's Tent"
+
+name = "Stack"
+theme = "hugo-theme-stack"
+license = "GPL-3.0-only"
+licenselink = "https://github.com/CaiJimmy/hugo-theme-stack/blob/master/LICENSE"
+description = "Card-style Hugo theme designed for bloggers"
+homepage = "https://github.com/CaiJimmy/hugo-theme-stack"
+demosite = "https://demo.stack.jimmycai.com"
+
+tags = ["blog", "responsive", "clean", "light", "dark", "personal"]
+
+features = [
+    "disqus",
+    "photoswipe",
+    "opengraph",
+    "widgets",
+    "darkmode",
+    "table of contents",
+    "search",
+]
+
+min_version = "0.87.0"
+
+[author]
+name = "Jimmy Cai"
+homepage = "https://jimmycai.com"
+
+[Params]
+favicon = "/favicon.ico"
+
+[Params.Sidebar]
+compact = false
+subtitle = "Write My Learn"
+avatar.src = "avatar.jpg"
+
+[Params.Article]
+math = true
+toc = true
