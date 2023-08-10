@@ -36,6 +36,9 @@ compact = false
 subtitle = "Write My Learn"
 avatar.src = "avatar.jpg"
 
+[params.footer]
+customText = "<a href='https://beian.miit.gov.cn' target='blank'>赣ICP备20010259号-1</a>"
+
 [params.article]
 math = true
 toc = true
