@@ -5,7 +5,7 @@ date: 2023-09-27T19:11:49+08:00
 draft: false
 categories: ['奇妙的世界']
 tags: ['arch', 'monitor', 'java']
-image: "micrometer.png"
+image: "image/micrometer.png"
 ---
 
 ## 1. Metric
