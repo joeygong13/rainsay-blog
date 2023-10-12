@@ -5,14 +5,15 @@ tags: ['netty', 'tcp', 'arch']
 categories: ['奇妙的世界']
 image: ""
 date: 2023-10-12T16:19:16+08:00
-draft: true
+draft: false
+style: {"color": "red"}
 ---
 
 ## 1. Pipeline 如何添加 ChannelHandler
 
 Pipeline 其实是一条线，In 和 Out 的 Handler 按顺序添加进入 Pipeline 中。对每个添加的 Handler，通过创建 ChannelHandlerContext 上下文来关联，其结构：
 
-![Netty Pipeline](/image/netty-pipeline-add.svg)
+![Netty Pipeline](netty-pipeline-add.svg)
 
 
 ```java
@@ -60,7 +61,7 @@ private void addFirst0(AbstractChannelHandlerContext newCtx) {
 
 当 Pipeline 处理数据时，他会按照读数据还是写数据，从 Context 链表中按顺序挑选出合适的 Handler 来处理事件和数据，此时 Pipeline 如下图所示
 
-![Netty Pipeline Data Flow](/image/netty-pipeline.svg)
+![Netty Pipeline Data Flow](netty-pipeline.svg)
 
 请注意，事件的传播操作，使用 `ctx.fireXXX()` 时，事件将从当前 Context 传播到链中的下一个 InHandler Context，同理 `ctx.write()` 方法，将写入的数据传播到 <span style="color:#dd3918;font-weight:bold;">当前 Context 的前一个 OutHandler Context</span> 中。
 
@@ -152,7 +153,7 @@ pipeline.addLast(extraGroup, new HelloInHandler())
 
 附带一张 `NioEventLoopGroup` 的 UML 图
 
-![NioEventLoopGroup](/image/NioEventLoopGroup.png)
+![NioEventLoopGroup](NioEventLoopGroup.png)
 
 
 ## 4. NIO 的体现
