@@ -25,3 +25,11 @@ image: "commands.png"
 |---------|------|
 | mvn dependency:tree | View MVN Dependency Tree |
 
+### Bash
+
+| Command | Note |
+|---------|------|
+| find . -type f -exec grep -l xxx {} \\; | 关键字搜索当前目录所有文件 |
+
+> find -exec 后面跟命令，需使用 ; 分号表示结束， {} 表示查找到的文件名
+
