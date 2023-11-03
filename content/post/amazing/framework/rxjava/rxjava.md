@@ -83,3 +83,41 @@ Subject 可以解决这个问题，Subject 同时实现了 Observable 和 Observ
 
 + AsyncSubject, 当上游数据完成时，取最后一个转发给订阅者
   ![AsyncSubject](https://raw.github.com/wiki/ReactiveX/RxJava/images/rx-operators/AsyncSubject.png)
+
+## 3. 操作符
+
+### map()
+
+Observable 中的元素转换为另一种类型
+
+```java
+just(1, 2, 3).map(i -> i * 10);
+```
+
+### flatMap()
+
+Observable 中的每个元素转换为另一种 Observable 流，flatMap 不保证转换后流的顺序跟原始顺序一致。flatMap 内部使用了 merge 操作 符，它同时订阅所有的子 Observable，对他们不做任何区分。因为它是异步的，多线程式的进行转换，可用用参数控制并发数量。
+
+```java
+just(1, 2, 3).flatMap(i -> just(i * 10, i * 100, i * 1000));
+```
+
+### concatMap()
+
+类似 flatMap，但可用包装原始元素的顺序和转换后的 Observable 流的顺序一致
+
+### delay()
+
+所有元素延迟指定时间发射
+
+```java
+just(1, 2, 3).delay(1, TimeUnit.SECONDS);
+```
+
+### zip
+
+可用静态方法 zip(), 也可用对象方法 zipWith(), 两个流的元素进行结合成一对。注意，由于 zip 的结合一定要两个元素，这在两个流的速度大致一致时有良好的表现，但流速不一致时，较快的流将会等待较慢的流
+
+### combineLatest
+
+可用静态方法 combineLatest() 或对象方法 withLatest() 解决 zip 的缺陷，两个不同速度的流，都会结合最近的另一个流元素，没有结合元素的将会被丢弃
