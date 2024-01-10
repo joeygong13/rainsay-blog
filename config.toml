@@ -28,6 +28,12 @@ min_version = "0.87.0"
 name = "Jimmy Cai"
 homepage = "https://jimmycai.com"
 
+[markup]
+  defaultMarkdownHandler = "goldmark"
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
 [params]
 favicon = "/favicon.ico"
 

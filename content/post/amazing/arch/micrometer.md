@@ -124,9 +124,12 @@ finally {
 + `scope started` - Observation opens a Scope. The Scope must be closed when no longer used. Handlers can create thread local variables on start that are cleared upon closing of the scope. Happens when the Observation#openScope() method gets called.
 + `scope stopped` - Observation stops a Scope. Happens when the Observation.Scope#close() method gets called.
 
-> 每个 Observation 有 一些元数据，暂时不知道有什么用，官方文档有如下解释：
-> To make it possible to debug production problems an Observation needs additional metadata such as key-value pairs (also known as tags). You can then query your metrics or distributed tracing backend by those tags to find the required data. Tags can be either of high or low cardinality.
-> 基位代表着数据的离散程度，有很多不同的数据表示高基位，有限的不同数据为低基位
+ 每个 Observation 可以在 context 添加一些元数据，这些元数据可以有效的帮助我们进行 debug。
+ 官方文档有如下解释：
+
+ > To make it possible to debug production problems an Observation needs additional metadata such as key-value pairs (also known as tags). You can then query your metrics or distributed tracing backend by those tags to find the required data. Tags can be either of high or low cardinality.
+ 
+ 基位代表着数据的离散程度，有很多不同的数据表示高基位，有限的不同数据为低基位
 
 ```java
 // 创建一个事件监听类，它将会集中处理事件，并通过事件来记录各种 日志、metric。
@@ -170,6 +173,7 @@ Observation.Context context = new Observation.Context().put("my.name", "test").p
 Observation observation = Observation.start("my.operation", () -> context, registry);
 try (Observation.Scope scope = observation.openScope()) {
     // 真正的业务处理
+    observation.lowCardinalityKeyValue("my.url", "hello")
     doSomeWork1();
     observation.event(Observation.Event.of("my.event", "look what happend"));
     doSomeWork2();
