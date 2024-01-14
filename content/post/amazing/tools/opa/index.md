@@ -41,7 +41,7 @@ opa --help
 opa run
 
 # 以独立 http 模式运行
-opa run -S
+opa run -s
 
 ```
 
