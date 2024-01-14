@@ -1,7 +1,7 @@
 ---
 title: "Open Policy Agent - 基础"
 date: 2024-01-10T20:11:09+08:00
-draft: true
+draft: false
 
 categories: ['奇妙的世界', 'OPA']
 tags: ['脚本', '决策', '语言']
