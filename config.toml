@@ -29,14 +29,18 @@ name = "Jimmy Cai"
 homepage = "https://jimmycai.com"
 
 [markup]
-  defaultMarkdownHandler = "goldmark"
-  [markup.goldmark]
-    [markup.goldmark.renderer]
-      unsafe = true
+    [markup.highlight]
+    noClasses = false 
+    style = "onedark"
+    codeFences= true
+    guessSyntax= true
+    lineNoStart= 1
+    lineNos= true
+    lineNumbersInTable= true
+    tabWidth= 4
 
 [params]
 favicon = "/favicon.ico"
-customcss = ['css/custom.css']
 
 [params.sidebar]
 compact = false

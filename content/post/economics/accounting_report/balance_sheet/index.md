@@ -5,6 +5,7 @@ draft: false
 categories: ["生活的原理", "看懂财务报表"]
 tags: ["经济学", "会计", "报表"]
 image: "image/reporting.jpg"
+description: "了解资产负债表的意义，及其各项目含义"
 ---
 
 ## 1. 资产负债表

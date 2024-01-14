@@ -1,16 +1,17 @@
 ---
-title: "Rxjava"
+title: "Reactive in Java"
 date: 2023-10-20T17:03:24+08:00
-draft: true
+draft: false
 categories: ["奇妙的世界"]
 tags: ["java", "响应式框架", "观察者", "设计模式"]
+description: "简略的使用 RxJava"
 ---
 
 ##  1. RxJava 基础
 
 > 推荐一个的 Rx 代码可视化网站，用于理解各种操作符 https://rxviz.com/
 
-### 1.1 Observable 
+### 1.1 Observable
 
 Observable 是 Rx 中的核心抽象，代表一个可观察的对象。其产生数据流，并可以结合各种操作符来改变数据流。
 

@@ -1,0 +1,16 @@
+:root {
+    --accent-color: #96340d;
+
+    --base-font-family: 'Noto Sans SC', var(--sys-font-family), var(--zh-font-family), sans-serif;
+    --article-font-size: 1.6rem;
+    --article-line-height: 1.6
+}
+
+.mark {
+    color: #dc1502;
+}
+
+.img-center {
+    display: block;
+    margin: auto;
+}
