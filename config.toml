@@ -41,6 +41,7 @@ homepage = "https://jimmycai.com"
 
 [params]
 favicon = "/favicon.ico"
+customCSS = ["css/custom.css"]
 
 [params.sidebar]
 compact = false

@@ -70,3 +70,101 @@ tags: ['vim', 'tool']
 `aw` 选中当前单词
 
 在 `visual` 模式下, 快速选中一个被引号或 <> 标签包含的词组，可用 `i"`(i, inner 内包含) 可选中 `"hello"` 的 `hello`，`a"`（all 全包含） 则可选中整个 `"hello"`
+
+
+## 6. Jetbrain 中的 Vim 快捷键
+
+```vim
+"" Source your .vimrc
+"source ~/.vimrc
+let mapleader=" "
+
+"" -- Suggested options --
+" Show a few lines of context around the cursor. Note that this makes the
+" text scroll if you mouse-click near the start or end of the window.
+set scrolloff=5
+
+"" Ide
+set ideajoin
+set ideaput
+
+" Do incremental searching.
+set incsearch
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+"" view
+nnoremap zm :action ToggleZenMode <CR>
+
+"" formatting
+nnoremap == :action ReformatCode <CR>
+nnoremap -- :action OptimizeImports <CR>
+vnoremap cc :action CommentByLineComment <CR>
+
+"" searching
+nnoremap ss :action FindInPath <CR>
+nnoremap <leader>x :action CloseContent <CR>
+nnoremap <leader>f :action SelectInProjectView <CR>
+
+"" server
+map <leader>sd <Action>(ChooseDebugConfiguration)
+map <leader>sx <Action>(Stop)
+map <leader>sc <Action>(RunClass)
+
+"" git
+map <leader>gh :action Vcs.ShowTabbedFileHistory <CR>
+map <leader>gs :action Vcs.UpdateProject <CR>
+map <leader>ga :action CheckinProject <CR>
+map <leader>gu :action Vcs.Push <CR>
+
+"" code operator
+map <leader>r <Action>(RenameElement)
+map <leader>b <Action>(ToggleLineBreakpoint)
+nmap <leader>l <Action>(GotoDeclaration)
+nmap <leader>m <Action>(GotoDeclarationOnly)
+nmap <leader>i <Action>(GotoImplementation)
+nmap <leader>u <Action>(GotoSuperMethod)
+nmap <leader>h <Action>(Back)
+nmap <leader>p <Action>(PasteMultiple)
+
+
+"" code generate
+nnoremap <leader>mg :action GenerateGetterAndSetter <CR>
+
+"" tab select
+nmap <C-l> <Action>(NextTab)
+nmap <C-h> <Action>(PreviousTab)
+nnoremap <leader>1 1gt
+nnoremap <leader>2 2gt
+nnoremap <leader>3 3gt
+nnoremap <leader>4 4gt
+nnoremap <leader>5 5gt
+nnoremap <leader>6 6gt
+nnoremap <leader>7 7gt
+nnoremap <leader>8 8gt
+nnoremap <leader>9 9gt
+
+" Find more examples here: https://jb.gg/share-ideavimrc
+sethandler <C-i> i:ide
+
+```
+
+## 7. VS Code 中的 Vim
+
+```json
+{
+    "vim.leader": "<space>",
+    "vim.normalModeKeyBindings": [
+        { "before": ["<S-l>"], "after": ["$"] },
+        { "before": ["<S-h>"], "after": ["^"] },
+        { "before": ["<leader>", "<leader>"], "commands": ["workbench.action.showCommands"] },
+        { "before": ["<leader>", "x"], "commands": ["workbench.action.closeActiveEditor"] },
+        { "before": ["<C-l>"], "commands": ["workbench.action.nextEditor"] },
+        { "before": ["<C-h>"], "commands": ["workbench.action.previousEditor"] },
+        { "before": ["leader", "f"], "commands": ["workbench.files.action.showActiveFileInExplorer"] },
+        { "before": ["s", "s"], "commands": ["workbench.action.findInFiles"] },
+        { "before": ["<leader>", "s"], "commands": ["workbench.view.search"] },
+    ],
+}
+```

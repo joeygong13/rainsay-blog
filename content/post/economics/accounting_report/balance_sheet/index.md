@@ -2,8 +2,8 @@
 title: "看懂报表-资产负债表"
 date: 2023-11-08T10:26:59+08:00
 draft: false
-categories: ["生活的原理", "看懂财务报表"]
-tags: ["经济学", "会计", "报表"]
+categories: ["生活的原理"]
+tags: ["会计", "报表"]
 image: "image/reporting.jpg"
 description: "了解资产负债表的意义，及其各项目含义"
 ---
