@@ -1,6 +1,6 @@
 baseURL = 'https://www.rainsay.top'
 languageCode = 'zh-cn'
-title = "Rainsay's Tent"
+title = "雨语的帐篷"
 defaultContentLanguage = 'zh-cn'
 defaultContentLanguageInSubdir = false
 
@@ -48,7 +48,7 @@ customCSS = ["css/custom.css"]
 
 [params.sidebar]
 compact = false
-subtitle = "Write My Learn"
+subtitle = "记录点滴"
 avatar.src = "avatar.webp"
 
 [params.footer]
@@ -74,7 +74,7 @@ page = [
 
 [menu]
 [[menu.main]]
-    name = "Home"
+    name = "主页"
     url = "/"
     weight = -100
     identifier = "home"
