@@ -5,7 +5,7 @@ date: 2023-08-09T16:36:47+08:00
 draft: false
 categories: ['奇妙的世界']
 tags: ['bash', 'command']
-image: "commands.png"
+image: "image/commands.png"
 ---
 
 ## Java
@@ -30,6 +30,9 @@ image: "commands.png"
 | Command | Note |
 |---------|------|
 | find . -type f -exec grep -l xxx {} \\; | 关键字搜索当前目录所有文件 |
+| netstat -ntp \| awk '{if (\$NF == "12345" &amp;&amp; \$6 == "CLOSE_WAIT") print \$0}' \| wc -l | 统计某进程 CLOSE_WAIT TCP 数量 |
 
-> find -exec 后面跟命令，需使用 ; 分号表示结束， {} 表示查找到的文件名
+{{< notice note >}}
+find -exec 后面跟命令，需使用 ; 分号表示结束， {} 表示查找到的文件名
+{{< /notice >}}
 

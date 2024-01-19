@@ -64,7 +64,7 @@ is_joey if data.user == "joey"
 
 现在我们执行最顶级的 data 目标看看效果 opa eval --bundle . data，输出如下
 
-{{< figure src="../rego-out-00.png" alt="Rego 输出" title="Rego 输出" width=600 class="img-center" >}}
+{{< figure src="rego-out-00.png" alt="Rego 输出" title="Rego 输出" width=600 class="img-center" >}}
 
 注意看：rego 脚本中的输出被包名隔离了，而 data.json 文件的数据则没有。
 
@@ -74,4 +74,4 @@ Rego 文件中的{{< mark >}}规则名称，可以作为计算目标，并作为
 
 例如上面，可以计算 is_joey 的结果，也可以计算 set 的结果，还可以计算 user 的结果。
 
-{{< figure src="../rego-out-01.png" alt="Rego 输出" title="Rego 输出" width=600 class="img-center" >}}
+{{< figure src="rego-out-01.png" alt="Rego 输出" title="Rego 输出" width=600 class="img-center" >}}

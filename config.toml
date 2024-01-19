@@ -1,6 +1,8 @@
 baseURL = 'https://www.rainsay.top'
 languageCode = 'zh-cn'
 title = "Rainsay's Tent"
+defaultContentLanguage = 'zh-cn'
+defaultContentLanguageInSubdir = false
 
 name = "Stack"
 theme = "hugo-theme-stack"
@@ -9,6 +11,7 @@ licenselink = "https://github.com/CaiJimmy/hugo-theme-stack/blob/master/LICENSE"
 description = "Card-style Hugo theme designed for bloggers"
 homepage = "https://github.com/CaiJimmy/hugo-theme-stack"
 demosite = "https://demo.stack.jimmycai.com"
+
 
 tags = ["blog", "responsive", "clean", "light", "dark", "personal"]
 

@@ -14,3 +14,40 @@
     display: block;
     margin: auto;
 }
+
+
+
+[data-scheme="light"] {
+    $color: #444;
+
+    $noteTitleBgColor: #6ab0de;
+    $noteBgColor: #e7f2fa;
+
+    $tipTitleBgColor: rgba(92, 184, 92, .8);
+    $tipBgColor: #e6f9e6;
+
+    $warnTitleBgColor: rgba(217, 83, 79, .9);
+    $warnBgColor: #fae2e2;
+
+    $infoTitleBgColor: #f0b37e;
+    $infoBgColor: #fff2db;
+    @import "notice.scss";
+}
+
+[data-scheme="dark"] {
+    $color: #eee;
+
+    $noteTitleBgColor: #125d8f;
+    $noteBgColor: #446c8a;
+
+    $tipTitleBgColor: rgba(11, 90, 11, 0.8);
+    $tipBgColor: #4d584d;
+
+    $warnTitleBgColor: rgba(148, 23, 19, 0.9);
+    $warnBgColor: #815f5f;
+
+    $infoTitleBgColor: #9c5313;
+    $infoBgColor: #ac9775;
+    @import "notice.scss";
+
+}

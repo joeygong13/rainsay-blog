@@ -11,7 +11,7 @@ description: "Open Policy Agent 工作流程"
 
 ## 1. 用途
 
-{{< figure src="../opa-service.svg" alt="OPA 工作流程" title="OPA 工作流程" width=400 class="img-center" >}}
+{{< figure src="opa-service.svg" alt="OPA 工作流程" title="OPA 工作流程" width=800 class="img-center" >}}
 
 Open Policy Agent 简称 OPA，是一个策略系统，通过定义一些规则，然后输入数据匹配规则，以生成最终结果。
 

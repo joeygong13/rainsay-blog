@@ -13,7 +13,7 @@ style: {"color": "red"}
 
 Pipeline 其实是一条线，In 和 Out 的 Handler 按顺序添加进入 Pipeline 中。对每个添加的 Handler，通过创建 ChannelHandlerContext 上下文来关联，其结构：
 
-![Netty Pipeline](netty-pipeline-add.svg)
+![Netty Pipeline](./netty-pipeline-add.svg)
 
 
 ```java
