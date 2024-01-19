@@ -1,7 +1,7 @@
 ---
 title: "Open Policy Agent - Rego 语言"
 date: 2024-01-16T15:21:40+08:00
-draft: true
+draft: false
 categories: ["奇妙的世界"]
 tags: ['脚本', 'OPA']
 image: "image/opa-horizontal-color.png"

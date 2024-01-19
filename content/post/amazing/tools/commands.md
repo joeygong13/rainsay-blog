@@ -6,6 +6,7 @@ draft: false
 categories: ['奇妙的世界']
 tags: ['bash', 'command']
 image: "image/commands.png"
+math: false
 ---
 
 ## Java
@@ -32,7 +33,7 @@ image: "image/commands.png"
 | find . -type f -exec grep -l xxx {} \\; | 关键字搜索当前目录所有文件 |
 | netstat -ntp \| awk '{if (\$NF == "12345" &amp;&amp; \$6 == "CLOSE_WAIT") print \$0}' \| wc -l | 统计某进程 CLOSE_WAIT TCP 数量 |
 
-{{< notice note >}}
+{{< notice info>}}
 find -exec 后面跟命令，需使用 ; 分号表示结束， {} 表示查找到的文件名
 {{< /notice >}}
 
