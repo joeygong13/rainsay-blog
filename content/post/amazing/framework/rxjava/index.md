@@ -11,6 +11,12 @@ description: "简略的使用 RxJava"
 
 > 推荐一个的 Rx 代码可视化网站，用于理解各种操作符 https://rxviz.com/
 
++ `io.reactivex.rxjava3.core.Flowable`: 0..N flows, supporting Reactive-Streams and backpressure
++ `io.reactivex.rxjava3.core.Observable`: 0..N flows, no backpressure,
++ `io.reactivex.rxjava3.core.Single`: a flow of exactly 1 item or an error,
++ `io.reactivex.rxjava3.core.Completable`: a flow without items but only a completion or error signal,
++ `io.reactivex.rxjava3.core.Maybe`: a flow with no items, exactly one item or an error.
+
 ### 1.1 Observable
 
 Observable 是 Rx 中的核心抽象，代表一个可观察的对象。其产生数据流，并可以结合各种操作符来改变数据流。
@@ -87,38 +93,134 @@ Subject 可以解决这个问题，Subject 同时实现了 Observable 和 Observ
 
 ## 3. 操作符
 
-### map()
+[Operators List](https://reactivex.io/documentation/operators.html#alphabetical)
 
-Observable 中的元素转换为另一种类型
+### Creating
 
-```java
-just(1, 2, 3).map(i -> i * 10);
-```
+|Operator|Note|
+|--------|----|
+| Create| create an Observable from scratch by calling observer methods programmatically |
+| Defer | do not create the Observable until the observer subscribes, and create a fresh Observable for each observer |
+| Empty | create Observables that have very precise and limited behavior |
+| From | convert some other object or data structure into an Observable |
+| Interval | create an Observable that emits a sequence of integers spaced by a particular time interval |
+| Just | convert an object or a set of objects into an Observable that emits that or those objects |
+| Range | create an Observable that emits a range of sequential integers |
+| Repeat | create an Observable that emits a particular item or sequence of items repeatedly |
+| Start | create an Observable that emits the return value of a function |
+| Timer | create an Observable that emits a single item after a given delay |
 
-### flatMap()
+### Transforming
 
-Observable 中的每个元素转换为另一种 Observable 流，flatMap 不保证转换后流的顺序跟原始顺序一致。flatMap 内部使用了 merge 操作 符，它同时订阅所有的子 Observable，对他们不做任何区分。因为它是异步的，多线程式的进行转换，可用用参数控制并发数量。
+|Operator|Note|
+|--------|----|
+| Buffer| periodically gather items from an Observable into bundles and emit these bundles rather than emitting the items one at a time |
+| FlatMap |  transform the items emitted by an Observable into Observables, then flatten the emissions from those into a single Observable |
+| GroupBy| divide an Observable into a set of Observables that each emit a different group of items from the original Observable, organized by key |
+| Map |  transform the items emitted by an Observable by applying a function to each item |
+| Scan | apply a function to each item emitted by an Observable, sequentially, and emit each successive value|
+| Window | periodically subdivide items from an Observable into Observable windows and emit these windows rather than emitting the items one at a time |
 
-```java
-just(1, 2, 3).flatMap(i -> just(i * 10, i * 100, i * 1000));
-```
+{{< notice >}}
 
-### concatMap()
+flatMap() 将 Observable 中的每个元素转换为另一种 Observable 流，flatMap 不保证转换后流的顺序跟原始顺序一致。flatMap 内部使用了 merge 操作 符，它同时订阅所有的子 Observable，对他们不做任何区分。因为它是异步的，多线程式的进行转换，可用用参数控制并发数量。
 
-类似 flatMap，但可用包装原始元素的顺序和转换后的 Observable 流的顺序一致
+如下保证顺序，可使用 concatMap, 他类似 flatMap，但可用包装原始元素的顺序和转换后的 Observable 流的顺序一致
+{{< /notice >}}
 
-### delay()
+### Filtering
 
-所有元素延迟指定时间发射
+|Operator|Note|
+|--------|----|
+| Debounce | only emit an item from an Observable if a particular timespan has passed without it emitting another item |
+| Distinct |  suppress duplicate items emitted by an Observable|
+| ElementAt | emit only item n emitted by an Observable |
+| Filter | emit only those items from an Observable that pass a predicate test |
+| First | emit only the first item, or the first item that meets a condition, from an Observable |
+| IgnoreElements | do not emit any items from an Observable but mirror its termination notification |
+| Last | emit only the last item emitted by an Observable |
+| Sample | emit the *most recent* item emitted by an Observable within periodic time intervals |
+| Skip | suppress the first n items emitted by an Observable |
+| SkipLast | suppress the last n items emitted by an Observable |
+| Take | emit only the first n items emitted by an Observable |
+| TakeLast | emit only the last n items emitted by an Observable |
 
-```java
-just(1, 2, 3).delay(1, TimeUnit.SECONDS);
-```
+### Combining
 
-### zip
+|Operator|Note|
+|--------|----|
+| And/Then/When | combine sets of items emitted by two or more Observables by means of Pattern and Plan intermediaries |
+| CombineLatest | when an item is emitted by either of two Observables, combine the *latest* item emitted by each Observable via a specified function and emit items based on the results of this function|
+| Join | combine items emitted by two Observables whenever an item from one Observable is emitted during a time window defined according to an item emitted by the other Observable |
+| Merge | combine multiple Observables into one by merging their emissions |
+| StartWith | emit a specified sequence of items before beginning to emit the items from the source Observable |
+| Switch | convert an Observable that emits Observables into a single Observable that emits the items emitted by the most-recently-emitted of those Observables |
+| Zip | combine the emissions of multiple Observables together via a specified function and emit single items for each combination based on the results of this function |
+| Concat |emit the emissions from two or more Observables without interleaving them |
 
-可用静态方法 zip(), 也可用对象方法 zipWith(), 两个流的元素进行结合成一对。注意，由于 zip 的结合一定要两个元素，这在两个流的速度大致一致时有良好的表现，但流速不一致时，较快的流将会等待较慢的流
-
-### combineLatest
+{{< notice >}}
+zip() 或 zipWith(), 两个流的元素进行结合成一对。注意，由于 zip 的结合一定要两个元素，这在两个流的速度大致一致时有良好的表现，但**流速不一致时，较快的流将会等待较慢的流**
 
 可用静态方法 combineLatest() 或对象方法 withLatest() 解决 zip 的缺陷，两个不同速度的流，都会结合最近的另一个流元素，没有结合元素的将会被丢弃
+{{< /notice >}}
+
+### Error Handling
+
+|Operator|Note|
+|--------|----|
+| Catch | recover from an onError notification by continuing the sequence without error |
+| Retry | if a source Observable sends an onError notification, resubscribe to it in the hopes that it will complete without error |
+
+### Utility
+
+|Operator|Note|
+|--------|----|
+| Delay | shift the emissions from an Observable forward in time by a particular amount|
+| Do |register an action to take upon a variety of Observable lifecycle events |
+| Materialize/ Dematerialize |represent both the items emitted and the notifications sent as emitted items, or reverse this process |
+| ObserveOn |specify the scheduler on which an observer will observe this Observable |
+| Serialize |force an Observable to make serialized calls and to be well-behaved|
+| Subscribe | operate upon the emissions and notifications from an Observable|
+| SubscribeOn | specify the scheduler an Observable should use when it is subscribed to|
+| TimeInterval |  convert an Observable that emits items into one that emits indications of the amount of time elapsed between those emissions|
+| Timeout |mirror the source Observable, but issue an error notification if a particular period of time elapses without any emitted items |
+| Timestamp |attach a timestamp to each item emitted by an Observable |
+| Using |create a disposable resource that has the same lifespan as the Observable |
+
+### Conditional and Boolean
+
+|Operator|Note|
+|--------|----|
+| All | determine whether all items emitted by an Observable meet some criteria|
+| Amb | given two or more source Observables, emit all of the items from only the first of these Observables to emit an item|
+| Contains | determine whether an Observable emits a particular item or not|
+| DefaultIfEmpty | emit items from the source Observable, or a default item if the source Observable emits nothing|
+| SequenceEqual | determine whether two Observables emit the same sequence of items|
+| SkipUntil | discard items emitted by an Observable until a second Observable emits an item|
+| SkipWhile | discard items emitted by an Observable until a specified condition becomes false|
+| TakeUntil | discard items emitted by an Observable after a second Observable emits an item or terminates|
+| TakeWhile | discard items emitted by an Observable after a specified condition becomes false|
+
+### Mathematical and Aggregate
+
+|Operator|Note|
+|--------|----|
+| Average |calculates the average of numbers emitted by an Observable and emits this average |
+| Count | count the number of items emitted by the source Observable and emit only this value|
+| Max | determine, and emit, the maximum-valued item emitted by an Observable|
+| Min | determine, and emit, the minimum-valued item emitted by an Observable|
+| Reduce | apply a function to each item emitted by an Observable, sequentially, and emit the final value|
+| Sum | calculate the sum of numbers emitted by an Observable and emit this sum|
+
+### Connectable Observable
+
+|Operator|Note|
+|--------|----|
+| Connect |instruct a connectable Observable to begin emitting items to its subscribers |
+| Publish |convert an ordinary Observable into a connectable Observable |
+| RefCount |make a Connectable Observable behave like an ordinary Observable |
+| Replay | ensure that all observers see the same sequence of emitted items, even if they subscribe after the Observable has begun emitting items|
+
+## 4. 背压 Backpressure
+
+TODO
