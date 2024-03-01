@@ -1,6 +1,6 @@
 ---
-title: "Reactive in Java"
-date: 2023-10-20T17:03:24+08:00
+title: "Reactive Java 简略概要"
+date: 2024-03-01T14:03:24+08:00
 draft: false
 categories: ["奇妙的世界"]
 tags: ["java", "响应式框架", "观察者", "设计模式"]
@@ -123,9 +123,18 @@ Subject 可以解决这个问题，Subject 同时实现了 Observable 和 Observ
 
 {{< notice >}}
 
+**flatMap 的特性：**
+
 flatMap() 将 Observable 中的每个元素转换为另一种 Observable 流，flatMap 不保证转换后流的顺序跟原始顺序一致。flatMap 内部使用了 merge 操作 符，它同时订阅所有的子 Observable，对他们不做任何区分。因为它是异步的，多线程式的进行转换，可用用参数控制并发数量。
 
 如下保证顺序，可使用 concatMap, 他类似 flatMap，但可用包装原始元素的顺序和转换后的 Observable 流的顺序一致
+
+**Window 和 Buffer 的区别**
+
+Window 同 Buffer 都可以依据时间段或指定数据量来收集一段数据，两者不同之处在于 Window 生成的是 Observable 流，而 Buffer 生成的列表。
+
+
+
 {{< /notice >}}
 
 ### Filtering
@@ -187,6 +196,16 @@ zip() 或 zipWith(), 两个流的元素进行结合成一对。注意，由于 z
 | Timestamp |attach a timestamp to each item emitted by an Observable |
 | Using |create a disposable resource that has the same lifespan as the Observable |
 
+{{< notice >}}
+
+**ObserveOn 和 SubscribeOn 的区别：**
+
+ObserveOn 将指定下游操作符运行在哪个线程上，整个流程涉及两个线程，造成了 ObserveOn 的上游是同步的，但下游从主线程看是异步的
+
+SubscribeOn 是将整个流运行在其他线程上，而不是 Observable.create() 的线程, 由于只涉及一个线程，所以整体流程还是同步的。多次调用 SubscribeOn 只有最上游的生效。
+
+{{< /notice >}}
+
 ### Conditional and Boolean
 
 |Operator|Note|
@@ -223,4 +242,79 @@ zip() 或 zipWith(), 两个流的元素进行结合成一对。注意，由于 z
 
 ## 4. 背压 Backpressure
 
-TODO
+rxjava 中，可以通过使用 `buffer`, `window` 等操作符来缓存部分数据，已达到批量处理操作，抵御数据洪峰。但真正灵活的还是背压功能，因为只有消费者自己知道自己的消费速度。
+
+背压，意思为当消费者的消费速度跟不上生产者的生产速度时，消费端提供一种反馈通道来通知生产者调整发射速度
+
+Flowable 类似于 Observalbe，但支持 backpressure 功能
+
+```kotlin
+Flowable.range(0, 1_000_000_000)
+    .subscribe(object: DefaultSubscriber<Int>() {
+        override fun onStart() {
+            request(10)
+        }
+        override fun onNext(p0: Int) {
+            println(p0)
+            TimeUnit.SECONDS.sleep(1)
+            request(10)
+        }
+
+        override fun onError(p0: Throwable?) {
+            println(p0?.message)
+        }
+
+        override fun onComplete() {
+            println("Complete")
+        }
+    })
+
+```
+
+通过实现 `DefaultSubscriber` 的 onStart 方法，在 onStart 中使用 request 初始化消费数量(默认 Long.MAX_VLAUE)，然后在每次 onNext 中在使用 request 请求获取消息（这样把本是 push 模型的 rxjava 变成了 pull 模型）
+
+rxjava 中 Flowable 创建的源都支持背压操作。但如果想自定义源，需要自己实现背压支持，需要在 Flowable 的 Emitter 支持 requested() 方法，可以知道下游所设定的 request 值。
+
+下列我们创建一个可持续发送数据的源，并使用 requested 和 request 方法来自定义背压操作
+
+```kotlin
+    fun customBackpressureSubscribe() {
+        Flowable.create<String>({
+            for(i in 1..1000) {
+                while (it.requested().toInt() == 0) {
+                    if(it.isCancelled) {
+                        return@create
+                    }
+                }
+                println("Subscriber request ${it.requested()}")
+                it.onNext(i.toString())
+            }
+            it.onComplete()
+        }, BackpressureStrategy.ERROR)
+            .observeOn(Schedulers.computation())
+            .subscribe(object: DefaultSubscriber<String>() {
+                override fun onStart() {
+                    request(1)
+                }
+                override fun onNext(p0: String) {
+                    println(p0)
+                    request(1)
+                    TimeUnit.MILLISECONDS.sleep(500)
+                }
+
+                override fun onError(p0: Throwable?) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onComplete() {
+                    TODO("Not yet implemented")
+                }
+
+            })
+    }
+
+```
+
+{{< notice tip >}}
+背压操作是解决消费端和生产端速度不一致的方法，如果整个 reactive 流是同步的，这是触发不了背压操作的，因为两者速度一定是一致的。
+{{< /notice >}}
