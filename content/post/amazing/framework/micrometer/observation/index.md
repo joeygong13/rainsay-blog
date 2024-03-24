@@ -43,7 +43,11 @@ finally {
 }
 ```
 
-这对单个 meter 的处理，看起来还算美妙，但如果需要在此代码中添加更多的监控数据，可能会增加更多的代码量，这将导致代码的可维护性和可读性降低。Oberrvation API 就是来解决此问题的，它使用了类似数据总线的思维，通过传递事件和上下文来集中记录数据。请看它的解决方案：
+这对单个 meter 的处理，看起来还算美妙，但如果需要在此代码中添加更多的监控数据，可能会增加更多的代码量，这将导致代码的可维护性和可读性降低。或者多种不同业务线使用相同类别的监控数据，这也会造成冗余代码。Oberrvation API 就是来解决此问题的，它使用了类似数据总线的思维，通过传递事件和上下文来集中记录数据。
+
+设想以下场景，系统中需要调用多个第三方 API，如 ChatGPT、TTS 转语音、内容搜索等，它们都使用 HTTP API。这些 API 有许多共通的监控点，像 http 响应时长、调用次数、错误/成功次数，也有不同的健康指标，如 GPT 有 token 的消费数、TTS 有语言时长、搜索结果有匹配度等等。那像这样的场景，使用 Observation API 就可以把相同点提出来，形成一个 ObservationHandler，其他特殊监控点使用不同的可识别的特征创建新的 ObservationHandler，这样就可以达到复用的目的。
+
+请看它的解决方案：
 
 通过监听以下生命周期：
 
@@ -58,7 +62,7 @@ finally {
  官方文档有如下解释：
 
  > To make it possible to debug production problems an Observation needs additional metadata such as key-value pairs (also known as tags). You can then query your metrics or distributed tracing backend by those tags to find the required data. Tags can be either of high or low cardinality.
- 
+
  基位代表着数据的离散程度，有很多不同的数据表示高基位，有限的不同数据为低基位
 
 ```java
@@ -78,8 +82,30 @@ static class SimpleHandler implements ObservationHandler<Observation.Context> {
     public void onStop(Observation.Context context) { }
 
     @Override
+    public void onScopeStart(Observation.Context context) { }
+
+    @Override
+    public void onScopeStop(Observation.Context context) { }
+
+    @Override
     public boolean supportsContext(Observation.Context handlerContext) { return true }
 }
+```
+
+可以简单的使用
+
+```java
+ObservationRegistry registry = ObservationRegistry.create();
+registry.observationConfig().observationHandler(new SimpleHandler());
+Observation.createNotStarted("foo", registry)
+    .lowCardinalityKeyValue("lowTag", "lowTagValue")
+    .highCardinalityKeyValue("highTag", "highTagValue")
+    .observe(() -> System.out.println("Hello"));Observation.Context context = new Observation.Context().put("key", "value");
+```
+
+上面的代码会自动开启一个 scope，收集 error，停止 scope，停止 observation。也可以全流程的控制检测逻辑，手动做这些事，以便达到精细的监控。Scope 可以认为是整个流程中的独立的关键节点。
+
+```java
 
 // 业务类
 ObservationRegistry registry = ObservationRegistry.create();
@@ -106,5 +132,3 @@ finally {
 ```
 
 你可以通过继承 `Observation.Context` 来创建一个特定的上下文，以便 Handler 特殊处理。还可以通过创建 ObservationConvention 实现类来覆写默认的名称
-
-

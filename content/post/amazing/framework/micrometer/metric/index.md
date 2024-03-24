@@ -1,7 +1,7 @@
 ---
 title: "Micrometer Metric"
 description: "Micrometer provides a simple facade over the instrumentation clients for the most popular observability systems, allowing you to instrument your JVM-based application code without vendor lock-in. Think SLF4J, but for observability."
-date: 2024-03-22T10:53:13+08:00
+date: 2024-03-21T10:53:13+08:00
 draft: false
 categories: ['奇妙的世界']
 tags: ['monitor', 'java']

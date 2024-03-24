@@ -4,12 +4,43 @@ date: 2024-03-01T14:03:24+08:00
 draft: false
 categories: ["奇妙的世界"]
 tags: ["java", "响应式框架", "观察者", "设计模式"]
-description: "简略的使用 RxJava"
+description: "RxJava is a Java VM implementation of Reactive Extensions: a library for composing asynchronous and event-based programs by using observable sequences."
 ---
 
-##  1. RxJava 基础
+RxJava 共有三个大版本：
 
-> 推荐一个的 Rx 代码可视化网站，用于理解各种操作符 https://rxviz.com/
+1. Version 1.x
+
+    The 1.x version is end-of-life as of March 31, 2018. No further development, support, maintenance, PRs and updates will happen. The Javadoc of the very last version, 1.3.8, will remain accessible.
+
+2. Version 2.x
+
+    The 2.x version is end-of-life as of February 28, 2021. No further development, support, maintenance, PRs and updates will happen. The Javadoc of the very last version, 2.2.21, will remain accessible.
+
+3. Version 3.x (Javadoc)
+
+    + Single dependency: Reactive-Streams.
+    + Java 8+ or Android API 21+ required.
+    + Java 8 lambda-friendly API.
+    + Android desugar friendly.
+    + Fixed API mistakes and many limits of RxJava 2.
+    + Intended to be a replacement for RxJava 2 with relatively few binary incompatible changes.
+    + Non-opinionated about the source of concurrency (threads, pools, event loops, fibers, actors, etc.).
+    + Async or synchronous execution.
+    + Virtual time and schedulers for parameterized concurrency.
+    + Test and diagnostic support via test schedulers, test consumers and plugin hooks.
+    + Interop with newer JDK versions via 3rd party libraries, such as
+    + Java 9 Flow API
+    + Java 21 Virtual Threads
+    + Learn more about RxJava in general on the Wiki Home.
+
+{{< notice tip >}}
+
+推荐一个的 Rx 代码可视化网站，用于理解各种操作符 [rxviz](https://rxviz.com/)
+
+{{< /notice >}}
+
+## 1. RxJava 基础
 
 + `io.reactivex.rxjava3.core.Flowable`: 0..N flows, supporting Reactive-Streams and backpressure
 + `io.reactivex.rxjava3.core.Observable`: 0..N flows, no backpressure,
@@ -127,13 +158,11 @@ Subject 可以解决这个问题，Subject 同时实现了 Observable 和 Observ
 
 flatMap() 将 Observable 中的每个元素转换为另一种 Observable 流，flatMap 不保证转换后流的顺序跟原始顺序一致。flatMap 内部使用了 merge 操作 符，它同时订阅所有的子 Observable，对他们不做任何区分。因为它是异步的，多线程式的进行转换，可用用参数控制并发数量。
 
-如下保证顺序，可使用 concatMap, 他类似 flatMap，但可用包装原始元素的顺序和转换后的 Observable 流的顺序一致
+如需要保证顺序，可使用 concatMap, 他类似 flatMap，但可用包装原始元素的顺序和转换后的 Observable 流的顺序一致
 
 **Window 和 Buffer 的区别**
 
 Window 同 Buffer 都可以依据时间段或指定数据量来收集一段数据，两者不同之处在于 Window 生成的是 Observable 流，而 Buffer 生成的列表。
-
-
 
 {{< /notice >}}
 
