@@ -1,7 +1,7 @@
 ---
 title: "看懂报表-资产负债表"
 date: 2023-11-08T10:26:59+08:00
-draft: false
+draft: true
 categories: ["生活的原理"]
 tags: ["会计", "报表"]
 image: "image/reporting.jpg"
